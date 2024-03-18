@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -16,7 +17,7 @@ public class RendezVous {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Date dateRendezVous;
+    private LocalDateTime dateRendezVous;
 
     @Enumerated(EnumType.STRING)
     private StatusRDV status;

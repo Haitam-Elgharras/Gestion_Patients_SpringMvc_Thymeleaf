@@ -29,10 +29,8 @@
 <div layout:fragment="content">
     <div>
         <div class="card">
-            <div class="card-header">
-                Liste des patients
-            </div>
-            <div class="card-body">
+            <h2 class="mt-3 ms-3 mb-0">Liste des patients</h2>
+            <div class="card-body p-3 m-4 position-relative bg-body-secondary shadow-lg rounded-3">
                 <div class="d-flex justify-content-end me-5">
                     <form class="d-flex" th:action="@{/user/index}" method="get">
                         <input class="form-control me-2" type="search" th:value="${keyword}"
@@ -43,14 +41,17 @@
                     </form>
                 </div>
                 <br>
-                <table class="table">
+                <table class="table rounded-3">
                     <thead>
                     <tr>
                         <th>Id</th>
                         <th>Nom</th>
+                        <th>Prenom</th>
                         <th>Date de naissance</th>
                         <th>Malade</th>
+                        <th>Score</th>
                         <th>Rendez-vous</th>
+                        <th th:if="${#authorization.expression('hasRole(''ADMIN'')')}">Actions</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -60,6 +61,17 @@
                         <td th:text="${p.prenom}"></td>
                         <td th:text="${p.dateNaissance}"></td>
                         <td th:text="${p.malade}"></td>
+                        <td th:text="${p.score}"></td>
+<!--                        create a drop down list for the rendezVous date and status-->
+                        <td>
+                            <label for="rendezVous" style="position: absolute"></label>
+                            <select id="rendezVous" class="form-select">
+                                <option th:each="rdv : ${p.rendezVous}"
+                                        th:value="${rdv.id}"
+                                        th:text="${#temporals.format(rdv.dateRendezVous, 'dd-MM-yyyy HH:mm')} + ' - ' + ${rdv.status}"
+                                ></option>
+                            </select>
+                        </td>
 
                         <td th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
                             <a th:href="@{/admin/editPatients(id=${p.id})}"
